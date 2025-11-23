@@ -1,0 +1,3 @@
+yfinance
+joblib
+scikit-learn
