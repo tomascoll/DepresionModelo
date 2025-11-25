@@ -14,8 +14,7 @@ st.set_page_config(
 # --- FUNCIÓN DE CARGA ---
 @st.cache_resource
 def cargar_modelo():
-    # Busca el archivo en la misma carpeta donde está app.py
-    nombre_archivo = 'modelo_depresion.pkl' # Asegúrate que este sea el nombre correcto
+    nombre_archivo = 'modelo_depresion.pkl'
     try:
         data = joblib.load(nombre_archivo)
         return data
@@ -35,8 +34,6 @@ def explicar_prediccion(modelo, vectorizer, texto_procesado):
             return
 
         # 2. Obtener el vocabulario y los pesos
-        # get_feature_names_out() es para scikit-learn versiones nuevas
-        # si te da error, cambia por get_feature_names()
         feature_names = vectorizer.get_feature_names_out()
         
         # 3. Transformar solo este texto para ver qué indices activa
@@ -118,7 +115,7 @@ def main():
                         probs = modelo.predict_proba(texto_vec)[0]
                         confianza = probs[1] if prediccion == 1 else probs[0]
                     except:
-                        pass # Si el modelo no tiene predict_proba
+                        pass
 
                     st.divider()
 
@@ -132,7 +129,7 @@ def main():
                         if confianza > 0:
                             st.write(f"Confianza del modelo: **{confianza*100:.1f}%**")
 
-                    # --- NUEVA SECCIÓN: VISUALIZAR PESOS ---
+                    # --- VISUALIZAR PESOS ---
                     with st.expander("🔍 Ver pesos de las palabras (Explicación)"):
                         explicar_prediccion(modelo, vectorizer, texto_truncado)
                     # ---------------------------------------
@@ -140,7 +137,7 @@ def main():
                 except Exception as e:
                     st.error(f"Error al procesar: {e}")
 
-    # Texto explicativo inferior (se mantiene igual)
+    # Texto explicativo inferior
     st.markdown("""
     ---
     ### Guía de Interpretación de Casos
